@@ -159,6 +159,7 @@ libc_bitflags!{
         #[cfg(any(target_os = "android",
                   target_os = "dragonfly",
                   target_os = "freebsd",
+                  target_os = "illumos",
                   target_os = "linux",
                   target_os = "netbsd",
                   target_os = "openbsd"))]
@@ -167,6 +168,7 @@ libc_bitflags!{
         #[cfg(any(target_os = "android",
                   target_os = "dragonfly",
                   target_os = "freebsd",
+                  target_os = "illumos",
                   target_os = "linux",
                   target_os = "netbsd",
                   target_os = "openbsd"))]

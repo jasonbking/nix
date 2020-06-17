@@ -905,8 +905,10 @@ pub fn sethostname<S: AsRef<OsStr>>(name: S) -> Result<()> {
     cfg_if! {
         if #[cfg(any(target_os = "dragonfly",
                      target_os = "freebsd",
+                     target_os = "illumos",
                      target_os = "ios",
-                     target_os = "macos", ))] {
+                     target_os = "macos",
+                     target_os = "solaris", ))] {
             type sethostname_len_t = c_int;
         } else {
             type sethostname_len_t = size_t;
@@ -2546,13 +2548,22 @@ pub struct User {
     /// Path to shell
     pub shell: PathBuf,
     /// Login class
-    #[cfg(not(any(target_os = "android", target_os = "linux")))]
+    #[cfg(not(any(target_os = "android",
+                  target_os = "illumos",
+                  target_os = "linux",
+                  target_os = "solaris")))]
     pub class: CString,
     /// Last password change
-    #[cfg(not(any(target_os = "android", target_os = "linux")))]
+    #[cfg(not(any(target_os = "android",
+                  target_os = "illumos",
+                  target_os = "linux",
+                  target_os = "solaris")))]
     pub change: libc::time_t,
     /// Expiration time of account
-    #[cfg(not(any(target_os = "android", target_os = "linux")))]
+    #[cfg(not(any(target_os = "android",
+                  target_os = "illumos",
+                  target_os = "linux",
+                  target_os = "solaris")))]
     pub expire: libc::time_t
 }
 
@@ -2569,11 +2580,11 @@ impl From<&libc::passwd> for User {
                 shell: PathBuf::from(OsStr::from_bytes(CStr::from_ptr((*pw).pw_shell).to_bytes())),
                 uid: Uid::from_raw((*pw).pw_uid),
                 gid: Gid::from_raw((*pw).pw_gid),
-                #[cfg(not(any(target_os = "android", target_os = "linux")))]
+                #[cfg(not(any(target_os = "android", target_os = "linux", target_os = "illumos", target_os = "solaris")))]
                 class: CString::new(CStr::from_ptr((*pw).pw_class).to_bytes()).unwrap(),
-                #[cfg(not(any(target_os = "android", target_os = "linux")))]
+                #[cfg(not(any(target_os = "android", target_os = "linux", target_os = "illumos", target_os = "solaris")))]
                 change: (*pw).pw_change,
-                #[cfg(not(any(target_os = "android", target_os = "linux")))]
+                #[cfg(not(any(target_os = "android", target_os = "linux", target_os = "illumos", target_os = "solaris")))]
                 expire: (*pw).pw_expire
             }
         }

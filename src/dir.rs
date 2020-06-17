@@ -181,6 +181,7 @@ impl Entry {
     /// See platform `readdir(3)` or `dirent(5)` manpage for when the file type is known;
     /// notably, some Linux filesystems don't implement this. The caller should use `stat` or
     /// `fstat` if this returns `None`.
+    #[cfg(not(any(target_os = "illumos", target_os = "solaris")))]
     pub fn file_type(&self) -> Option<Type> {
         match self.0.d_type {
             libc::DT_FIFO => Some(Type::Fifo),
@@ -192,5 +193,10 @@ impl Entry {
             libc::DT_SOCK => Some(Type::Socket),
             /* libc::DT_UNKNOWN | */ _ => None,
         }
+    }
+
+    #[cfg(any(target_os = "illumos", target_os = "solaris")]
+    pub fn file_type(&self) -> Option<Type> {
+        None
     }
 }
