@@ -299,11 +299,17 @@ libc_enum!{
                 target_os = "openbsd"))]
         B76800,
         B115200,
+        #[cfg(any(target_os = "illumos", target_os = "solaris"))]
+        B153600,
         B230400,
+        #[cfg(any(target_os = "illumos", target_os = "solaris"))]
+        B307200,
         #[cfg(any(target_os = "android",
                   target_os = "freebsd",
+                  target_os = "illumos",
                   target_os = "linux",
-                  target_os = "netbsd"))]
+                  target_os = "netbsd",
+                  target_os = "solaris"))]
         B460800,
         #[cfg(any(target_os = "android", target_os = "linux"))]
         B500000,
@@ -311,8 +317,10 @@ libc_enum!{
         B576000,
         #[cfg(any(target_os = "android",
                   target_os = "freebsd",
+                  target_os = "illumos",
                   target_os = "linux",
-                  target_os = "netbsd"))]
+                  target_os = "netbsd",
+                  target_os = "solaris"))]
         B921600,
         #[cfg(any(target_os = "android", target_os = "linux"))]
         B1000000,
@@ -354,6 +362,8 @@ impl TryFrom<libc::speed_t> for BaudRate {
                   target_os = "linux",
                   target_os = "netbsd"))]
         use libc::{B460800, B921600};
+        #[cfg(any(target_os = "illumos", target_os = "solaris"))]
+        use libc::{B153600, B307200, B460800, B921600};
 
         match s {
             B0 => Ok(BaudRate::B0),
@@ -398,11 +408,17 @@ impl TryFrom<libc::speed_t> for BaudRate {
                       target_os = "openbsd"))]
             B76800 => Ok(BaudRate::B76800),
             B115200 => Ok(BaudRate::B115200),
+            #[cfg(any(target_os = "illumos",
+                      target_os = "solaris"))]
+            B153600 => Ok(BaudRate::B153600),
             B230400 => Ok(BaudRate::B230400),
             #[cfg(any(target_os = "android",
                       target_os = "freebsd",
                       target_os = "linux",
                       target_os = "netbsd"))]
+            #[cfg(any(target_os = "illumos",
+                      target_os = "solaris"))]
+            B307200 => Ok(BaudRate::B307200),
             B460800 => Ok(BaudRate::B460800),
             #[cfg(any(target_os = "android", target_os = "linux"))]
             B500000 => Ok(BaudRate::B500000),
@@ -410,8 +426,10 @@ impl TryFrom<libc::speed_t> for BaudRate {
             B576000 => Ok(BaudRate::B576000),
             #[cfg(any(target_os = "android",
                       target_os = "freebsd",
+                      target_os = "illumos",
                       target_os = "linux",
-                      target_os = "netbsd"))]
+                      target_os = "netbsd",
+                      target_os = "solaris"))]
             B921600 => Ok(BaudRate::B921600),
             #[cfg(any(target_os = "android", target_os = "linux"))]
             B1000000 => Ok(BaudRate::B1000000),
@@ -502,15 +520,20 @@ libc_enum! {
         VDISCARD,
         #[cfg(any(target_os = "dragonfly",
                 target_os = "freebsd",
+                target_os = "illumos",
                 target_os = "macos",
                 target_os = "netbsd",
-                target_os = "openbsd"))]
+                target_os = "openbsd",
+                target_os = "solaris"))]
         VDSUSP,
         VEOF,
         VEOL,
         VEOL2,
         VERASE,
-        #[cfg(any(target_os = "dragonfly", target_os = "freebsd"))]
+        #[cfg(any(target_os = "dragonfly",
+                  target_os = "freebsd",
+                  target_os = "illumos",
+                  target_os = "solaris"))]
         VERASE2,
         VINTR,
         VKILL,
@@ -522,15 +545,17 @@ libc_enum! {
         VSTART,
         #[cfg(any(target_os = "dragonfly",
                 target_os = "freebsd",
+                target_os = "illumos",
                 target_os = "macos",
                 target_os = "netbsd",
-                target_os = "openbsd"))]
+                target_os = "openbsd",
+                target_os = "solaris"))]
         VSTATUS,
         VSTOP,
         VSUSP,
         #[cfg(target_os = "linux")]
         VSWTC,
-        #[cfg(target_os = "haiku")]
+        #[cfg(target_os = "haiku", target_os = "illumos", target_os = "solaris")]
         VSWTCH,
         #[cfg(not(all(target_os = "linux", target_arch = "sparc64")))]
         VTIME,

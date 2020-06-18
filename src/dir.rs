@@ -195,7 +195,7 @@ impl Entry {
         }
     }
 
-    #[cfg(any(target_os = "illumos", target_os = "solaris")]
+    #[cfg(any(target_os = "illumos", target_os = "solaris"))]
     pub fn file_type(&self) -> Option<Type> {
         None
     }
