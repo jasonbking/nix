@@ -27,6 +27,7 @@ pub use self::addr::{
     IpAddr,
     Ipv4Addr,
     Ipv6Addr,
+    #[cfg(not(any(target_os = "illumos", target_os = "solaris")))]
     LinkAddr,
 };
 #[cfg(any(target_os = "android", target_os = "linux"))]
