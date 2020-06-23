@@ -412,13 +412,15 @@ impl TryFrom<libc::speed_t> for BaudRate {
                       target_os = "solaris"))]
             B153600 => Ok(BaudRate::B153600),
             B230400 => Ok(BaudRate::B230400),
-            #[cfg(any(target_os = "android",
-                      target_os = "freebsd",
-                      target_os = "linux",
-                      target_os = "netbsd"))]
             #[cfg(any(target_os = "illumos",
                       target_os = "solaris"))]
             B307200 => Ok(BaudRate::B307200),
+            #[cfg(any(target_os = "android",
+                      target_os = "freebsd",
+                      target_os = "illumos",
+                      target_os = "linux",
+                      target_os = "netbsd",
+                      target_os = "solaris"))]
             B460800 => Ok(BaudRate::B460800),
             #[cfg(any(target_os = "android", target_os = "linux"))]
             B500000 => Ok(BaudRate::B500000),
@@ -555,7 +557,7 @@ libc_enum! {
         VSUSP,
         #[cfg(target_os = "linux")]
         VSWTC,
-        #[cfg(target_os = "haiku", target_os = "illumos", target_os = "solaris")]
+        #[cfg(any(target_os = "haiku", target_os = "illumos", target_os = "solaris"))]
         VSWTCH,
         #[cfg(not(all(target_os = "linux", target_arch = "sparc64")))]
         VTIME,
