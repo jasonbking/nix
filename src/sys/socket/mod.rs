@@ -19,6 +19,7 @@ pub mod sockopt;
  *
  */
 
+#[cfg(not(any(target_os = "illumos", target_os = "solaris")))]
 pub use self::addr::{
     AddressFamily,
     SockAddr,
@@ -27,9 +28,19 @@ pub use self::addr::{
     IpAddr,
     Ipv4Addr,
     Ipv6Addr,
-    #[cfg(not(any(target_os = "illumos", target_os = "solaris")))]
     LinkAddr,
 };
+#[cfg(any(target_os = "illumos", target_os = "solaris"))]
+pub use self::addr::{
+    AddressFamily,
+    SockAddr,
+    InetAddr,
+    UnixAddr,
+    IpAddr,
+    Ipv4Addr,
+    Ipv6Addr,
+};
+
 #[cfg(any(target_os = "android", target_os = "linux"))]
 pub use crate::sys::socket::addr::netlink::NetlinkAddr;
 #[cfg(any(target_os = "android", target_os = "linux"))]
