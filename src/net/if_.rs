@@ -44,6 +44,7 @@ libc_bitflags!(
                   target_os = "linux",
                   target_os = "macos",
                   target_os = "netbsd",
+                  target_os = "illumos",
                   target_os = "solaris"))]
         IFF_NOTRAILERS;
         /// Interface manages own routes.
@@ -61,6 +62,7 @@ libc_bitflags!(
                   target_os = "macos",
                   target_os = "netbsd",
                   target_os = "openbsd",
+                  target_os = "illumos",
                   target_os = "solaris"))]
         IFF_RUNNING;
         /// No arp protocol, L2 destination address not set. (see
@@ -145,8 +147,8 @@ libc_bitflags!(
                   target_os = "macos",
                   target_os = "ios"))]
         IFF_ALTPHYS;
-        /// DHCP controlls interface.
-        #[cfg(any(target_os = "illumos", target_os = "solaris"))]
+        /// DHCP controls interface.
+        #[cfg(any(target_os = "solaris", target_os = "illumos"))]
         IFF_DHCPRUNNING;
         /// The addresses are lost when the interface goes down. (see
         /// [`netdevice(7)`](http://man7.org/linux/man-pages/man7/netdevice.7.html))

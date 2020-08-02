@@ -153,6 +153,7 @@ impl Entry {
               target_os = "l4re",
               target_os = "linux",
               target_os = "macos",
+              target_os = "illumos",
               target_os = "solaris"))]
     pub fn ino(&self) -> u64 {
         self.0.d_ino as u64
@@ -168,6 +169,7 @@ impl Entry {
                   target_os = "l4re",
                   target_os = "linux",
                   target_os = "macos",
+                  target_os = "illumos",
                   target_os = "solaris")))]
     pub fn ino(&self) -> u64 {
         u64::from(self.0.d_fileno)

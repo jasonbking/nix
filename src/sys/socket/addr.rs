@@ -20,6 +20,7 @@ use crate::sys::socket::addr::sys_control::SysControlAddr;
           target_os = "ios",
           target_os = "linux",
           target_os = "macos",
+          target_os = "illumos",
           target_os = "netbsd",
           target_os = "openbsd"))]
 pub use self::datalink::LinkAddr;
@@ -41,7 +42,7 @@ pub enum AddressFamily {
     #[cfg(any(target_os = "android", target_os = "linux"))]
     Netlink = libc::AF_NETLINK,
     /// Low level packet interface (see [`packet(7)`](http://man7.org/linux/man-pages/man7/packet.7.html))
-    #[cfg(any(target_os = "android", target_os = "linux"))]
+    #[cfg(any(target_os = "android", target_os = "linux", target_os = "illumos"))]
     Packet = libc::AF_PACKET,
     /// KEXT Controls and Notifications
     #[cfg(any(target_os = "ios", target_os = "macos"))]
@@ -193,6 +194,7 @@ pub enum AddressFamily {
               target_os = "freebsd",
               target_os = "ios",
               target_os = "macos",
+              target_os = "illumos",
               target_os = "netbsd",
               target_os = "openbsd"))]
     Link = libc::AF_LINK,
@@ -648,6 +650,7 @@ pub enum SockAddr {
               target_os = "ios",
               target_os = "linux",
               target_os = "macos",
+              target_os = "illumos",
               target_os = "netbsd",
               target_os = "openbsd"))]
     Link(LinkAddr),
@@ -746,6 +749,7 @@ impl SockAddr {
                           target_os = "ios",
                           target_os = "macos",
                           target_os = "netbsd",
+                          target_os = "illumos",
                           target_os = "openbsd"))]
                 Some(AddressFamily::Link) => {
                     let ether_addr = LinkAddr(*(addr as *const libc::sockaddr_dl));
@@ -832,6 +836,7 @@ impl SockAddr {
                       target_os = "freebsd",
                       target_os = "ios",
                       target_os = "macos",
+                      target_os = "illumos",
                       target_os = "netbsd",
                       target_os = "openbsd"))]
             SockAddr::Link(LinkAddr(ref addr)) => (
@@ -1120,6 +1125,7 @@ mod datalink {
           target_os = "freebsd",
           target_os = "ios",
           target_os = "macos",
+          target_os = "illumos",
           target_os = "netbsd",
           target_os = "openbsd"))]
 mod datalink {
