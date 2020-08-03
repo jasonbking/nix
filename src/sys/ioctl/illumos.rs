@@ -12,6 +12,7 @@ mod consts {
     #[doc(hidden)]
     pub const OUT: ioctl_num_type = 0x4000_0000;
     #[doc(hidden)]
+    #[allow(overflowing_literals)]
     pub const IN: ioctl_num_type = 0x8000_0000;
     #[doc(hidden)]
     pub const INOUT: ioctl_num_type = IN|OUT;
@@ -47,17 +48,6 @@ macro_rules! ioc {
 #[macro_export(local_inner_macros)]
 macro_rules! request_code_none {
     ($g:expr, $n:expr) => (ioc!($crate::sys::ioctl::VOID, $g, $n, 0))
-}
-
-/// Generate an ioctl request code for a command that passes an integer
-///
-/// This is equivalent to the `_IOWINT()` macro exposed by the C ioctl API.
-///
-/// You should only use this macro directly if the `ioctl` you're working
-/// with is "bad" and you cannot use `ioctl_write_int!()` directly.
-#[macro_export(local_inner_macros)]
-macro_rules! request_code_write_int {
-    ($g:expr, $n:expr) => (ioc!($crate::sys::ioctl::VOID, $g, $n, ::std::mem::size_of::<$crate::libc::c_int>()))
 }
 
 /// Generate an ioctl request code for a command that reads.

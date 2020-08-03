@@ -246,6 +246,7 @@ impl AddressFamily {
                       target_os = "ios",
                       target_os = "macos",
                       target_os = "netbsd",
+                      target_os = "illumos",
                       target_os = "openbsd"))]
             libc::AF_LINK => Some(AddressFamily::Link),
             #[cfg(any(target_os = "android", target_os = "linux"))]
@@ -730,6 +731,7 @@ impl SockAddr {
         if addr.is_null() {
             None
         } else {
+            println!("FAMILY: {}", (*addr).sa_family);
             match AddressFamily::from_i32(i32::from((*addr).sa_family)) {
                 Some(AddressFamily::Unix) => None,
                 Some(AddressFamily::Inet) => Some(SockAddr::Inet(
@@ -753,6 +755,7 @@ impl SockAddr {
                           target_os = "illumos",
                           target_os = "openbsd"))]
                 Some(AddressFamily::Link) => {
+                    println!("LINK!");
                     let ether_addr = LinkAddr(*(addr as *const libc::sockaddr_dl));
                     if ether_addr.is_empty() {
                         None
@@ -1300,7 +1303,6 @@ mod tests {
               target_os = "ios",
               target_os = "macos",
               target_os = "netbsd",
-              target_os = "illumos",
               target_os = "openbsd"))]
     #[test]
     fn test_macos_loopback_datalink_addr() {
@@ -1315,11 +1317,32 @@ mod tests {
               target_os = "ios",
               target_os = "macos",
               target_os = "netbsd",
-              target_os = "illumos",
               target_os = "openbsd"))]
     #[test]
     fn test_macos_tap_datalink_addr() {
         let bytes = [20i8, 18, 7, 0, 6, 3, 6, 0, 101, 110, 48, 24, 101, -112, -35, 76, -80];
+        let ptr = bytes.as_ptr();
+        let sa = ptr as *const libc::sockaddr;
+        let _sock_addr = unsafe { SockAddr::from_libc_sockaddr(sa) };
+
+        assert!(_sock_addr.is_some());
+
+        let sock_addr = _sock_addr.unwrap();
+
+        assert_eq!(sock_addr.family(), AddressFamily::Link);
+
+        match sock_addr {
+            SockAddr::Link(ether_addr) => {
+                assert_eq!(ether_addr.addr(), [24u8, 101, 144, 221, 76, 176]);
+            },
+            _ => { unreachable!() }
+        };
+    }
+
+    #[cfg(target_os = "illumos")]
+    #[test]
+    fn test_illumos_tap_datalink_addr() {
+        let bytes = [25u8, 0, 0, 0, 6, 0, 6, 0, 24, 101, 144, 221, 76, 176];
         let ptr = bytes.as_ptr();
         let sa = ptr as *const libc::sockaddr;
         let _sock_addr = unsafe { SockAddr::from_libc_sockaddr(sa) };
