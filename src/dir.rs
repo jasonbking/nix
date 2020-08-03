@@ -187,6 +187,7 @@ impl Entry {
     /// `fstat` if this returns `None`.
     #[cfg(not(any(target_os = "illumos", target_os = "solaris")))]
     pub fn file_type(&self) -> Option<Type> {
+        #[cfg(not(target_os = "illumos"))]
         match self.0.d_type {
             libc::DT_FIFO => Some(Type::Fifo),
             libc::DT_CHR => Some(Type::CharacterDevice),
@@ -197,6 +198,10 @@ impl Entry {
             libc::DT_SOCK => Some(Type::Socket),
             /* libc::DT_UNKNOWN | */ _ => None,
         }
+
+        // illumos systems do not have the d_type member at all:
+        #[cfg(target_os = "illumos")]
+        None
     }
 
     #[cfg(any(target_os = "illumos", target_os = "solaris"))]

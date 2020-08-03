@@ -247,6 +247,13 @@ mod bsd;
           target_os = "openbsd"))]
 pub use self::bsd::*;
 
+#[cfg(target_os = "illumos")]
+#[macro_use]
+mod illumos;
+
+#[cfg(target_os = "illumos")]
+pub use self::illumos::*;
+
 /// Convert raw ioctl return value to a Nix result
 #[macro_export]
 #[doc(hidden)]

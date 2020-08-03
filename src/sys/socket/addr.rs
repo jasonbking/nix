@@ -705,6 +705,7 @@ impl SockAddr {
                       target_os = "ios",
                       target_os = "macos",
                       target_os = "netbsd",
+                      target_os = "illumos",
                       target_os = "openbsd"))]
             SockAddr::Link(..) => AddressFamily::Link,
             #[cfg(any(target_os = "android", target_os = "linux"))]
@@ -876,6 +877,7 @@ impl fmt::Display for SockAddr {
                       target_os = "linux",
                       target_os = "macos",
                       target_os = "netbsd",
+                      target_os = "illumos",
                       target_os = "openbsd"))]
             SockAddr::Link(ref ether_addr) => ether_addr.fmt(f),
             #[cfg(any(target_os = "android", target_os = "linux"))]
@@ -1137,6 +1139,7 @@ mod datalink {
 
     impl LinkAddr {
         /// Total length of sockaddr
+        #[cfg(not(target_os = "illumos"))]
         pub fn len(&self) -> usize {
             self.0.sdl_len as usize
         }
@@ -1288,6 +1291,7 @@ mod tests {
               target_os = "linux",
               target_os = "macos",
               target_os = "netbsd",
+              target_os = "illumos",
               target_os = "openbsd"))]
     use super::*;
 
@@ -1296,6 +1300,7 @@ mod tests {
               target_os = "ios",
               target_os = "macos",
               target_os = "netbsd",
+              target_os = "illumos",
               target_os = "openbsd"))]
     #[test]
     fn test_macos_loopback_datalink_addr() {
@@ -1310,6 +1315,7 @@ mod tests {
               target_os = "ios",
               target_os = "macos",
               target_os = "netbsd",
+              target_os = "illumos",
               target_os = "openbsd"))]
     #[test]
     fn test_macos_tap_datalink_addr() {

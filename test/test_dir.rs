@@ -4,13 +4,17 @@ use nix::sys::stat::Mode;
 use std::fs::File;
 use tempfile::tempdir;
 
+#[cfg(not(target_os = "illumos"))]
+const FLAGS: OFlag = OFlag::O_DIRECTORY | OFlag::O_RDONLY | OFlag::O_CLOEXEC;
+#[cfg(target_os = "illumos")]
+const FLAGS: OFlag = OFlag::O_RDONLY | OFlag::O_CLOEXEC;
+
 #[test]
 fn read() {
     let tmp = tempdir().unwrap();
     File::create(&tmp.path().join("foo")).unwrap();
     ::std::os::unix::fs::symlink("foo", tmp.path().join("bar")).unwrap();
-    let mut dir = Dir::open(tmp.path(), OFlag::O_DIRECTORY | OFlag::O_RDONLY | OFlag::O_CLOEXEC,
-                            Mode::empty()).unwrap();
+    let mut dir = Dir::open(tmp.path(), FLAGS, Mode::empty()).unwrap();
     let mut entries: Vec<_> = dir.iter().map(|e| e.unwrap()).collect();
     entries.sort_by(|a, b| a.file_name().cmp(b.file_name()));
     let entry_names: Vec<_> = entries
@@ -30,8 +34,7 @@ fn read() {
 #[test]
 fn rewind() {
     let tmp = tempdir().unwrap();
-    let mut dir = Dir::open(tmp.path(), OFlag::O_DIRECTORY | OFlag::O_RDONLY | OFlag::O_CLOEXEC,
-                            Mode::empty()).unwrap();
+    let mut dir = Dir::open(tmp.path(), FLAGS, Mode::empty()).unwrap();
     let entries1: Vec<_> = dir.iter().map(|e| e.unwrap().file_name().to_owned()).collect();
     let entries2: Vec<_> = dir.iter().map(|e| e.unwrap().file_name().to_owned()).collect();
     assert_eq!(entries1, entries2);
