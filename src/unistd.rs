@@ -1083,10 +1083,12 @@ pub fn pipe() -> Result<(RawFd, RawFd)> {
           target_os = "dragonfly",
           target_os = "emscripten",
           target_os = "freebsd",
+          target_os = "illumos",
           target_os = "linux",
           target_os = "redox",
           target_os = "netbsd",
-          target_os = "openbsd"))]
+          target_os = "openbsd",
+          target_os = "solaris"))]
 pub fn pipe2(flags: OFlag) -> Result<(RawFd, RawFd)> {
     let mut fds = mem::MaybeUninit::<[c_int; 2]>::uninit();
 
