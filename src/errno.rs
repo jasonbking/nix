@@ -624,8 +624,7 @@ fn desc(errno: Errno) -> &'static str {
                   target_os = "illumos", target_os = "solaris"))]
         ETIME           => "STREAM ioctl timeout",
 
-        #[cfg(any(target_os = "macos", target_os = "ios",
-                  target_os = "illumos", target_os = "solaris"))]
+        #[cfg(any(target_os = "macos", target_os = "ios"))]
         EOPNOTSUPP      => "Operation not supported on socket",
 
         #[cfg(any(target_os = "macos", target_os = "ios"))]
@@ -634,7 +633,8 @@ fn desc(errno: Errno) -> &'static str {
         #[cfg(any(target_os = "macos", target_os = "ios"))]
         EQFULL          => "Interface output queue is full",
 
-        #[cfg(any(target_os = "openbsd", target_os = "illumos", target_os = "solaris"))]
+        #[cfg(any(target_os = "openbsd", target_os = "illumos",
+                  target_os = "solaris"))]
         EOPNOTSUPP      => "Operation not supported",
 
         #[cfg(target_os = "openbsd")]
