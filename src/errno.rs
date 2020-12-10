@@ -2341,7 +2341,6 @@ mod consts {
         use self::Errno::*;
 
         match e {
-            _ => UnknownErrno,
             libc::EPERM => EPERM,
             libc::ENOENT => ENOENT,
             libc::ESRCH => ESRCH,
@@ -2460,10 +2459,10 @@ mod consts {
             libc::ECONNREFUSED => ECONNREFUSED,
             libc::EHOSTDOWN => EHOSTDOWN,
             libc::EHOSTUNREACH => EHOSTUNREACH,
-            libc::EWOULDBLOCK => EWOULDBLOCK,
             libc::EALREADY => EALREADY,
             libc::EINPROGRESS => EINPROGRESS,
             libc::ESTALE => ESTALE,
+            _ => UnknownErrno,
         }
     }
 }
