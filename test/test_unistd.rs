@@ -366,10 +366,12 @@ cfg_if!{
         execve_test_factory!(test_execve, execve, CString::new("/bin/sh").unwrap().as_c_str());
         execve_test_factory!(test_fexecve, fexecve, File::open("/bin/sh").unwrap().into_raw_fd());
     } else if #[cfg(any(target_os = "dragonfly",
+                        target_os = "illumos",
                         target_os = "ios",
                         target_os = "macos",
                         target_os = "netbsd",
-                        target_os = "openbsd"))] {
+                        target_os = "openbsd",
+                        target_os = "solaris"))] {
         execve_test_factory!(test_execve, execve, CString::new("/bin/sh").unwrap().as_c_str());
         // No fexecve() on DragonFly, ios, macos, NetBSD, OpenBSD.
         //
@@ -635,10 +637,12 @@ fn test_pipe() {
           target_os = "dragonfly",
           target_os = "emscripten",
           target_os = "freebsd",
+          target_os = "illumos",
           target_os = "linux",
           target_os = "netbsd",
           target_os = "openbsd",
-          target_os = "redox"))]
+          target_os = "redox",
+          target_os = "solaris"))]
 #[test]
 fn test_pipe2() {
     let (fd0, fd1) = pipe2(OFlag::O_CLOEXEC).unwrap();

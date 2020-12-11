@@ -1,3 +1,4 @@
+#[cfg(not(any(target_os = "illumos", target_os = "solaris")))]
 use nix::ifaddrs::InterfaceAddress;
 use nix::sys::socket::{AddressFamily, InetAddr, UnixAddr, getsockname};
 use std::collections::hash_map::DefaultHasher;
