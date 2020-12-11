@@ -307,7 +307,7 @@ fn desc(errno: Errno) -> &'static str {
         #[cfg(any(target_os = "linux", target_os = "android"))]
         EDOTDOT         => "RFS specific error",
 
-        #[cfg(any(target_os = "linux", target_os = "android", target_os = "illumos"))]
+        #[cfg(any(target_os = "linux", target_os = "android"))]
         EBADMSG         => "Not a data message",
 
         #[cfg(any(target_os = "illumos", target_os = "solaris"))]
@@ -366,11 +366,10 @@ fn desc(errno: Errno) -> &'static str {
         EUSERS          => "Too many users",
 
         #[cfg(any(target_os = "linux", target_os = "android",
-                  target_os = "netbsd", target_os = "redox",
-                  target_os = "illumos"))]
+                  target_os = "netbsd", target_os = "redox"))]
         EOPNOTSUPP      => "Operation not supported on transport endpoint",
 
-        #[cfg(any(target_os = "linux", target_os = "android", target_os = "illumos"))]
+        #[cfg(any(target_os = "linux", target_os = "android"))]
         ESTALE          => "Stale file handle",
 
         #[cfg(any(target_os = "linux", target_os = "android"))]
@@ -414,7 +413,7 @@ fn desc(errno: Errno) -> &'static str {
         #[cfg(any(target_os = "linux", target_os = "android"))]
         EKEYREJECTED    => "Key was rejected by service",
 
-        #[cfg(any(target_os = "linux", target_os = "android", target_os = "illumos"))]
+        #[cfg(any(target_os = "linux", target_os = "android"))]
         EOWNERDEAD      => "Owner died",
 
         #[cfg(any(target_os = "illumos", target_os = "solaris"))]
